@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 const Users = () => {
   const loadedUsers = useLoaderData();
   const [users, setUsers] = useState(loadedUsers);
+  // handle delted method
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -21,7 +22,7 @@ const Users = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-        //   console.log(data);
+          //   console.log(data);
           if (data.deletedId) {
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
           }
@@ -65,9 +66,11 @@ const Users = () => {
                 <td>{user.gender}</td>
                 <td>{user.status}</td>
                 <td className="flex gap-2">
-                  <button className="bg-[#06D6A0] p-2 rounded-md">
-                    <BiEditAlt className="text-lg" />
-                  </button>
+                  <Link to={`/update-user/${user._id}`}>
+                    <button className="bg-[#06D6A0] p-2 rounded-md">
+                      <BiEditAlt className="text-lg" />
+                    </button>
+                  </Link>
                   <button
                     onClick={() => handleDelete(user._id)}
                     className="rounded-md bg-[#06D6A0] p-2"
