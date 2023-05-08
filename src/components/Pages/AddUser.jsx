@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import { BiArrowFromRight } from "react-icons/bi";
 
 const AddUser = () => {
@@ -11,13 +12,31 @@ const AddUser = () => {
     const name = form.name.value;
     const email = form.email.value;
     const user = { name, email, gender, status };
-    console.log(user);
+    // console.log(user);
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+          if (data.insertedId) {
+            Swal.fire({
+                title: 'Success!',
+                text: 'User Added Perfectly',
+                icon: 'success',
+                confirmButtonText: 'Okay'
+              })
+        }
+      });
   };
 
   return (
-    <div className="my-8">
+    <div className="my-16">
       <div>
-        <Link className="text-[#5A2B98] flex items-center gap-1 font-semibold ">
+        <Link to="/" className="text-[#5A2B98] flex items-center gap-1 font-semibold ">
           <BiArrowFromRight className="text-xl" />
           <span>All Users</span>
         </Link>
